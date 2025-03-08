@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\productController;
 use App\Http\Controllers\UserController;
+use App\Services\ProductService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Services\UserService;
@@ -80,4 +82,16 @@ Route::get('/token', function (Request $request) {
 
 Route::post('/token', function (Request $request) {
     return $request->all();
+});
+
+// controller -> middleware
+Route::get('/users', [UserController:: class, 'index']) -> middleware('user-middleware');
+
+//resource
+Route::resource('products', productController::class);
+
+//view with data
+Route::get('/product-list', function (ProductService $productService) {
+    $data['products'] = $productService->listProducts();
+    return view('products.list', $data);
 });
