@@ -9,8 +9,10 @@ use App\Services\UserService;
 use Illuminate\Support\Facades\Response;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['name' => 'Luis']);
 });
+Route::get('/users', [UserController::class, 'index']); // nav-bar-navigation
+Route::resource('products', productController::class); // nav-bar-navigation
 
 // service container
 Route::get('/test-container', function (Request $request) {
@@ -85,10 +87,10 @@ Route::post('/token', function (Request $request) {
 });
 
 // controller -> middleware
-Route::get('/users', [UserController:: class, 'index']) -> middleware('user-middleware');
+// Route::get('/users', [UserController:: class, 'index']) -> middleware('user-middleware');
 
 //resource
-Route::resource('products', productController::class);
+// Route::resource('products', productController::class);
 
 //view with data
 Route::get('/product-list', function (ProductService $productService) {
